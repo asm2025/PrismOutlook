@@ -23,6 +23,8 @@ namespace PrismOutlook;
 /// </summary>
 public partial class App
 {
+	private ILogger<App> logger;
+
 	static App()
 	{
 		AppTitle = AppDomain.CurrentDomain.FriendlyName;
@@ -53,21 +55,7 @@ public partial class App
 		}
 
 		Log.Logger = loggerConfiguration.CreateLogger();
-		//ApplicationConfiguration.Initialize();
-
-		//try
-		//{
-		//}
-		//catch (Exception ex)
-		//{
-		//	logger.LogError(ex.CollectMessages());
-		//}
-		//finally
-		//{
-		//	logger.LogInformation($"{AppTitle} finished.");
-		//	ObjectHelper.Dispose(ref scope);
-		//	Log.CloseAndFlush();
-		//}
+		ApplicationConfiguration.Initialize();
 		base.OnStartup(e);
 	}
 
@@ -89,33 +77,37 @@ public partial class App
 
 	protected override Window CreateShell()
 	{
-		ILogger<App> logger = Container.Resolve<ILogger<App>>();
+		logger = Container.Resolve<ILogger<App>>();
 		logger.LogInformation($"{AppTitle} is starting...");
-		logger.LogInformation("Running the application...");
 		return Container.Resolve<MainWindow>();
 	}
 
 	/// <inheritdoc />
 	protected override void OnInitialized()
 	{
+		logger.LogInformation($"{AppTitle} initialized.");
 		base.OnInitialized();
 	}
 
 	/// <inheritdoc />
 	protected override void OnLoadCompleted(NavigationEventArgs e)
 	{
+		logger.LogInformation($"{AppTitle} load completed.");
 		base.OnLoadCompleted(e);
 	}
 
 	/// <inheritdoc />
 	protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
 	{
+		logger.LogInformation($"{AppTitle} session ending.");
 		base.OnSessionEnding(e);
 	}
 
 	/// <inheritdoc />
 	protected override void OnExit(ExitEventArgs e)
 	{
+		logger.LogInformation($"{AppTitle} finished.");
+		Log.CloseAndFlush();
 		base.OnExit(e);
 	}
 
