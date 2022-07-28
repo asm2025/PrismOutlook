@@ -1,0 +1,66 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+					xmlns:converters="clr-namespace:PrismOutlook.Shared.Converters;assembly=PrismOutlook.Shared">
+	
+	<!--FA Icon-->
+	<converters:BooleanToVerticalChevronIconConverter x:Key="BooleanToVerticalChevronIconConverter" />
+	<converters:BooleanToHorizontalChevronIconConverter x:Key="BooleanToHorizontalChevronIconConverter" />
+	<converters:BooleanToVerticalChevronImageConverter x:Key="BooleanToVerticalChevronImageConverter"
+														Foreground="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
+	<converters:BooleanToHorizontalChevronImageConverter x:Key="BooleanToHorizontalChevronImageConverter"
+														Foreground="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
+	<Style x:Key="FAToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+		<Setter Property="FontFamily" Value="/FontAwesome.Sharp;component/fonts/#Font Awesome 6 Free Solid"/>
+		<Setter Property="FontSize" Value="14" />
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<Style x:Key="VChevron" TargetType="ToggleButton" BasedOn="{StaticResource FAToggleButton}">
+		<Setter Property="Content" Value="{fa:ToText ChevronUp}" />
+		<Style.Triggers>
+			<Trigger Property="IsChecked" Value="True">
+				<Setter Property="Content" Value="{fa:ToText ChevronDown}" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+	<Style x:Key="HChevron" TargetType="ToggleButton" BasedOn="{StaticResource FAToggleButton}">
+		<Setter Property="Content" Value="{fa:ToText ChevronLeft}" />
+		<Style.Triggers>
+			<Trigger Property="IsChecked" Value="True">
+				<Setter Property="Content" Value="{fa:ToText ChevronRight}" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<!--Ribbon-->
+	<Style TargetType="RibbonControl" BasedOn="{StaticResource {x:Type RibbonControl}}">
+		<Setter Property="Background" Value="Transparent" />
+	</Style>
+	<Style TargetType="RibbonTab" BasedOn="{StaticResource {x:Type RibbonTab}}">
+		<Setter Property="Background" Value="Transparent" />
+	</Style>
+	<Style TargetType="RibbonGallery" BasedOn="{StaticResource {x:Type RibbonGallery}}">
+		<Setter Property="Background" Value="Transparent" />
+	</Style>
+	
+	<!--Button-->
+	<Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="FontWeight" Value="Normal" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="Opacity" Value="0.8" />
+		<Setter Property="Padding" Value="16 8" />
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="Opacity" Value="1" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+</ResourceDictionary>

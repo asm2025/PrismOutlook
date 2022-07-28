@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using essentialMix.Extensions;
 using essentialMix.Helpers;
 using essentialMix.Newtonsoft.Helpers;
@@ -13,7 +15,10 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
-using PrismOutlook.Views;
+using PrismOutlook.Modules.Calendar;
+using PrismOutlook.Modules.Contacts;
+using PrismOutlook.Modules.Mail;
+using PrismOutlook.Windows;
 using Serilog;
 using Unity;
 using Unity.Microsoft.DependencyInjection;
@@ -26,7 +31,7 @@ namespace PrismOutlook;
 /// </summary>
 public partial class App
 {
-	private ILogger logger;
+	private ILogger _logger;
 
 	static App()
 	{
@@ -45,6 +50,8 @@ public partial class App
 #if DEBUG
 		Environment.SetEnvironmentVariable("DOTNET_ENVIRONMENT", "Development");
 #endif
+
+		// Configuration
 		Configuration = CreateConfiguration(e.Args);
 		AppTitle = Configuration.GetValue("title", AppTitle);
 
@@ -55,26 +62,38 @@ public partial class App
 		{
 			loggerConfiguration.ReadFrom.Configuration(Configuration)
 								.Enrich.WithProperty("ApplicationName", AppTitle);
+			Log.Logger = loggerConfiguration.CreateLogger();
 		}
 
-		Log.Logger = loggerConfiguration.CreateLogger();
-		logger = Log.Logger;
-		ApplicationConfiguration.Initialize();
-		logger.Information($"{AppTitle} is starting...");
+		_logger = Log.Logger;
+		_logger.Information($"{AppTitle} is starting...");
+
+		// Error handling
+		AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+		TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
+		Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+		DispatcherUnhandledException += OnDispatcherUnhandledException;
+
+		// Theming and Resources
+		Resources.MergedDictionaries.Add(new ResourceDictionary
+		{
+			Source = new Uri("pack://application:,,,/Themes/Default.xaml")
+		});
+
 		base.OnStartup(e);
 	}
 
 	/// <inheritdoc />
 	protected override void ConfigureViewModelLocator()
 	{
-		logger.Debug("Configuring view model locator.");
+		_logger.Debug("Configuring view model locator.");
 		base.ConfigureViewModelLocator();
 	}
 
 	/// <inheritdoc />
 	protected override void Initialize()
 	{
-		logger.Debug("Initializing...");
+		_logger.Debug("Initializing...");
 		base.Initialize();
 	}
 
@@ -82,7 +101,7 @@ public partial class App
 	[NotNull]
 	protected override IContainerExtension CreateContainerExtension()
 	{
-		logger.Debug("Creating container extension.");
+		_logger.Debug("Creating container extension.");
 		ServiceCollection services = new ServiceCollection();
 		ConfigureServices(services, Configuration);
 		UnityContainer container = new UnityContainer();
@@ -93,84 +112,111 @@ public partial class App
 	/// <inheritdoc />
 	protected override IModuleCatalog CreateModuleCatalog()
 	{
-		logger.Debug("Creating module catalog.");
+		_logger.Debug("Creating module catalog.");
 		return base.CreateModuleCatalog();
 	}
 
 	/// <inheritdoc />
 	protected override void RegisterTypes(IContainerRegistry containerRegistry)
 	{
-		logger.Debug("Registering types.");
+		_logger.Debug("Registering types.");
 	}
 
 	/// <inheritdoc />
-	protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+	protected override void ConfigureModuleCatalog([NotNull] IModuleCatalog moduleCatalog)
 	{
-		logger.Debug("Configuring module catalog.");
+		_logger.Debug("Configuring module catalog.");
+		moduleCatalog.AddModule<ContactsModule>();
+		moduleCatalog.AddModule<MailModule>();
+		moduleCatalog.AddModule<CalendarModule>();
 		base.ConfigureModuleCatalog(moduleCatalog);
 	}
 
 	/// <inheritdoc />
 	protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
 	{
-		logger.Debug("Configuring region adapter mappings.");
+		_logger.Debug("Configuring region adapter mappings.");
 		base.ConfigureRegionAdapterMappings(regionAdapterMappings);
 	}
 
 	/// <inheritdoc />
 	protected override void ConfigureDefaultRegionBehaviors(IRegionBehaviorFactory regionBehaviors)
 	{
-		logger.Debug("Configuring default region behavior.");
+		_logger.Debug("Configuring default region behavior.");
 		base.ConfigureDefaultRegionBehaviors(regionBehaviors);
 	}
 
 	protected override Window CreateShell()
 	{
-		logger.Debug("Creating shell.");
+		_logger.Debug("Creating shell.");
 		return Container.Resolve<MainWindow>();
 	}
 
 	/// <inheritdoc />
 	protected override void InitializeShell(Window shell)
 	{
-		logger.Debug("Initializing shell.");
+		_logger.Debug("Initializing shell.");
 		base.InitializeShell(shell);
 	}
 
 	/// <inheritdoc />
 	protected override void InitializeModules()
 	{
-		logger.Debug("Initializing modules.");
+		_logger.Debug("Initializing modules.");
 		base.InitializeModules();
 	}
 
 	/// <inheritdoc />
 	protected override void OnInitialized()
 	{
-		logger.Information($"{AppTitle} initialized.");
+		_logger.Information($"{AppTitle} initialized.");
 		base.OnInitialized();
 	}
 
 	/// <inheritdoc />
 	protected override void OnLoadCompleted(NavigationEventArgs e)
 	{
-		logger.Debug("load completed.");
+		_logger.Debug("load completed.");
 		base.OnLoadCompleted(e);
 	}
 
 	/// <inheritdoc />
-	protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
+	protected override void OnSessionEnding([NotNull] SessionEndingCancelEventArgs e)
 	{
-		logger.Debug($"Session ending, {e.ReasonSessionEnding}.");
+		_logger.Debug($"Session ending, {e.ReasonSessionEnding}.");
 		base.OnSessionEnding(e);
 	}
 
 	/// <inheritdoc />
-	protected override void OnExit(ExitEventArgs e)
+	protected override void OnExit([NotNull] ExitEventArgs e)
 	{
-		logger.Information($"{AppTitle} exiting with exit code ${e.ApplicationExitCode}.");
+		_logger.Information($"{AppTitle} exiting with exit code ${e.ApplicationExitCode}.");
 		Log.CloseAndFlush();
 		base.OnExit(e);
+	}
+
+	private void OnUnhandledException(object sender, [NotNull] UnhandledExceptionEventArgs e)
+	{
+		Exception ex = e.ExceptionObject as Exception;
+		string error = ex?.CollectMessages() ?? e.ExceptionObject.ToString() ?? "Unknown error occurred.";
+		_logger.Error(ex, error);
+		MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+	}
+
+	private void OnDispatcherUnhandledException(object sender, [NotNull] DispatcherUnhandledExceptionEventArgs e)
+	{
+		string error = e.Exception.CollectMessages();
+		_logger.Error(e.Exception, error);
+		e.Handled = true;
+		MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+	}
+
+	private void OnUnobservedTaskException(object sender, [NotNull] UnobservedTaskExceptionEventArgs e)
+	{
+		string error = e.Exception.CollectMessages();
+		_logger.Error(e.Exception, error);
+		e.SetObserved();
+		MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 	}
 
 	private static IConfiguration CreateConfiguration(string[] args)
@@ -196,6 +242,7 @@ public partial class App
 				config
 					.AddDebug()
 					.AddConsole()
+					.AddEventSourceLogger()
 					.AddSerilog();
 			})
 			.AddSingleton(typeof(ILogger<>), typeof(Logger<>))

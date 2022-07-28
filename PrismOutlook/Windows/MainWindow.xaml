@@ -1,0 +1,85 @@
+﻿<RibbonWindow x:Class="PrismOutlook.Windows.MainWindow"
+				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+				xmlns:prism="http://prismlibrary.com/"
+				xmlns:viewModels="clr-namespace:PrismOutlook.ViewModels"
+				mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600" d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
+				prism:ViewModelLocator.AutoWireViewModel="True"
+				Icon="pack://application:,,,/Resources/Prism.ico"
+				Title="{Binding Path=Title}" MinWidth="512" MinHeight="384"
+				TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Auto">
+	<Window.TaskbarItemInfo>
+		<TaskbarItemInfo ProgressState="{Binding Path=ProgressState}" ProgressValue="{Binding Path=Progress}" />
+	</Window.TaskbarItemInfo>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Ribbon x:Name="Ribbon">
+			<Ribbon.HelpPaneContent>
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+					<ToggleButton Style="{StaticResource VChevron}" IsChecked="{Binding Path=IsMinimized, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Ribbon}}" />
+					<RibbonButton SmallImageSource="{fa:IconSource CircleQuestion}" />
+				</StackPanel>
+			</Ribbon.HelpPaneContent>
+			<Ribbon.QuickAccessToolBar>
+				<RibbonQuickAccessToolBar>
+				</RibbonQuickAccessToolBar>
+			</Ribbon.QuickAccessToolBar>
+			<Ribbon.ApplicationMenu>
+				<RibbonApplicationMenu IsMainMenu="True" SmallImageSource="{Binding Path=Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
+					<RibbonApplicationMenu.AuxiliaryPaneContent>
+						<RibbonGallery CanUserFilter="False" ScrollViewer.VerticalScrollBarVisibility="Auto">
+							<RibbonGalleryCategory Header="Test">
+								<RibbonGalleryCategory.ItemsPanel>
+									<ItemsPanelTemplate>
+										<StackPanel Orientation="Vertical" IsItemsHost="True"/>
+									</ItemsPanelTemplate>
+								</RibbonGalleryCategory.ItemsPanel>
+							</RibbonGalleryCategory>
+						</RibbonGallery>
+					</RibbonApplicationMenu.AuxiliaryPaneContent>
+					<RibbonApplicationMenuItem x:Name="mnuTest" ImageSource="{fa:IconSource File}" Header="Test" />
+				</RibbonApplicationMenu>
+			</Ribbon.ApplicationMenu>
+			<!--Tabs-->
+			<RibbonTab x:Name="tabHome" Header="Home">
+				<RibbonGroup x:Name="Group1" Header="Group 1">
+					<RibbonButton x:Name="rbtTest" Label="Test" SmallImageSource="{fa:IconSource File}" />
+				</RibbonGroup>
+			</RibbonTab>
+		</Ribbon>
+		<ContentControl Grid.Row="1" Margin="16" prism:RegionManager.RegionName="ContentRegion" />
+		<StatusBar Grid.Row="2">
+			<StatusBar.ItemsPanel>
+				<ItemsPanelTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="2*" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="100" />
+						</Grid.ColumnDefinitions>
+					</Grid>
+				</ItemsPanelTemplate>
+			</StatusBar.ItemsPanel>
+			<StatusBarItem>
+				<TextBlock Text="{Binding Path=Status}" />
+			</StatusBarItem>
+			<Separator Grid.Column="1"></Separator>
+			<StatusBarItem Grid.Column="2">
+				<TextBlock Text="{Binding Path=Operation}" />
+			</StatusBarItem>
+			<Separator Grid.Column="3"></Separator>
+			<StatusBarItem Grid.Column="4">
+				<!--<mah:MetroProgressBar HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding Path=Progress, Mode=OneWay}" />-->
+			</StatusBarItem>
+		</StatusBar>
+	</Grid>
+</RibbonWindow>
