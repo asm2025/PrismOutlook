@@ -47,6 +47,7 @@
 	<ItemGroup>
 		<PackageReference Include="essentialMix" Version="13.0.16" />
 		<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+		<PackageReference Include="Prism.Core" Version="8.1.97" />
 		<PackageReference Include="Prism.Wpf" Version="8.1.97" />
 	</ItemGroup>
 
@@ -54,6 +55,11 @@
 	  <ProjectReference Include="..\..\PrismOutlook.Core\PrismOutlook.Core.csproj" />
 	  <ProjectReference Include="..\..\PrismOutlook.Data\PrismOutlook.Data.csproj" />
 	  <ProjectReference Include="..\..\PrismOutlook.Model\PrismOutlook.Model.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ViewModels\" />
+	  <Folder Include="Views\" />
 	</ItemGroup>
 
 	<PropertyGroup>

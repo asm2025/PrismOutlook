@@ -52,14 +52,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\PrismOutlook.Core\PrismOutlook.Core.csproj" />
-	  <ProjectReference Include="..\..\PrismOutlook.Data\PrismOutlook.Data.csproj" />
-	  <ProjectReference Include="..\..\PrismOutlook.Model\PrismOutlook.Model.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="ViewModels\" />
-	  <Folder Include="Views\" />
+		<ProjectReference Include="..\..\PrismOutlook.Core\PrismOutlook.Core.csproj" />
+		<ProjectReference Include="..\..\PrismOutlook.Data\PrismOutlook.Data.csproj" />
+		<ProjectReference Include="..\..\PrismOutlook.Model\PrismOutlook.Model.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup>

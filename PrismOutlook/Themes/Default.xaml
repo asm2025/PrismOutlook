@@ -12,7 +12,7 @@
 														Foreground="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
 	<Style x:Key="FAToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
 		<Setter Property="FontFamily" Value="/FontAwesome.Sharp;component/fonts/#Font Awesome 6 Free Solid"/>
-		<Setter Property="FontSize" Value="14" />
+		<Setter Property="FontSize" Value="12" />
 		<Setter Property="VerticalAlignment" Value="Center"/>
 		<Setter Property="HorizontalAlignment" Value="Center"/>
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -20,18 +20,22 @@
 		<Setter Property="BorderBrush" Value="Transparent"/>
 	</Style>
 	<Style x:Key="VChevron" TargetType="ToggleButton" BasedOn="{StaticResource FAToggleButton}">
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="Focusable" Value="False" />
 		<Setter Property="Content" Value="{fa:ToText ChevronUp}" />
 		<Style.Triggers>
 			<Trigger Property="IsChecked" Value="True">
-				<Setter Property="Content" Value="{fa:ToText ChevronDown}" />
+				<Setter Property="Content" Value="{fa:ToText ThumbTack}" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>
 	<Style x:Key="HChevron" TargetType="ToggleButton" BasedOn="{StaticResource FAToggleButton}">
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="Focusable" Value="False" />
 		<Setter Property="Content" Value="{fa:ToText ChevronLeft}" />
 		<Style.Triggers>
 			<Trigger Property="IsChecked" Value="True">
-				<Setter Property="Content" Value="{fa:ToText ChevronRight}" />
+				<Setter Property="Content" Value="{fa:ToText ThumbTack}" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>

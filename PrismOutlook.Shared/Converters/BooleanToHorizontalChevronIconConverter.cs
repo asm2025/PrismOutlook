@@ -9,7 +9,7 @@ public class BooleanToHorizontalChevronIconConverter : BooleanToChevronIconConve
 	}
 
 	/// <inheritdoc />
-	protected sealed override IconChar TrueValue => IconChar.ChevronRight;
+	protected sealed override IconChar TrueValue => IconChar.ThumbTack;
 
 	/// <inheritdoc />
 	protected sealed override IconChar FalseValue => IconChar.ChevronLeft;

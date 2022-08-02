@@ -111,6 +111,7 @@
 	  <ProjectReference Include="..\Modules\PrismOutlook.Modules.Calendar\PrismOutlook.Modules.Calendar.csproj" />
 	  <ProjectReference Include="..\Modules\PrismOutlook.Modules.Contacts\PrismOutlook.Modules.Contacts.csproj" />
 	  <ProjectReference Include="..\Modules\PrismOutlook.Modules.Mail\PrismOutlook.Modules.Mail.csproj" />
+	  <ProjectReference Include="..\Modules\PrismOutlook.Modules.Tasks\PrismOutlook.Modules.Tasks.csproj" />
 	  <ProjectReference Include="..\PrismOutlook.Core\PrismOutlook.Core.csproj" />
 	  <ProjectReference Include="..\PrismOutlook.Data\PrismOutlook.Data.csproj" />
 	  <ProjectReference Include="..\PrismOutlook.Model\PrismOutlook.Model.csproj" />
@@ -142,5 +143,9 @@
 		</PreBuildEvent>
 		<ApplicationIcon>Resources\Prism.ico</ApplicationIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.VCRTForwarders.140" Version="1.0.7" />
+	</ItemGroup>
 
 </Project>

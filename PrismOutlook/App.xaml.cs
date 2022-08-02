@@ -18,6 +18,7 @@ using Prism.Unity;
 using PrismOutlook.Modules.Calendar;
 using PrismOutlook.Modules.Contacts;
 using PrismOutlook.Modules.Mail;
+using PrismOutlook.Modules.Tasks;
 using PrismOutlook.Windows;
 using Serilog;
 using Unity;
@@ -74,12 +75,6 @@ public partial class App
 		Dispatcher.UnhandledException += OnDispatcherUnhandledException;
 		DispatcherUnhandledException += OnDispatcherUnhandledException;
 
-		// Theming and Resources
-		Resources.MergedDictionaries.Add(new ResourceDictionary
-		{
-			Source = new Uri("pack://application:,,,/Themes/Default.xaml")
-		});
-
 		base.OnStartup(e);
 	}
 
@@ -126,9 +121,10 @@ public partial class App
 	protected override void ConfigureModuleCatalog([NotNull] IModuleCatalog moduleCatalog)
 	{
 		_logger.Debug("Configuring module catalog.");
-		moduleCatalog.AddModule<ContactsModule>();
 		moduleCatalog.AddModule<MailModule>();
 		moduleCatalog.AddModule<CalendarModule>();
+		moduleCatalog.AddModule<TasksModule>();
+		moduleCatalog.AddModule<ContactsModule>();
 		base.ConfigureModuleCatalog(moduleCatalog);
 	}
 
