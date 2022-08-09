@@ -75,6 +75,9 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="DevExpress.Wpf" Version="21.2.6" />
+		<PackageReference Include="DevExpress.Wpf.Themes.Win10Dark" Version="21.2.6" />
+		<PackageReference Include="DevExpress.Wpf.Themes.Win10Light" Version="21.2.6" />
 		<PackageReference Include="essentialMix" Version="13.0.16" />
 		<PackageReference Include="essentialMix.Core.WPF" Version="13.0.16" />
 		<PackageReference Include="essentialMix.Data" Version="13.0.16" />

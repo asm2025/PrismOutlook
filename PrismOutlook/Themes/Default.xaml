@@ -2,15 +2,43 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
 					xmlns:converters="clr-namespace:PrismOutlook.Shared.Converters;assembly=PrismOutlook.Shared">
-	
-	<!--FA Icon-->
+	<!--Converters-->
 	<converters:BooleanToVerticalChevronIconConverter x:Key="BooleanToVerticalChevronIconConverter" />
 	<converters:BooleanToHorizontalChevronIconConverter x:Key="BooleanToHorizontalChevronIconConverter" />
 	<converters:BooleanToVerticalChevronImageConverter x:Key="BooleanToVerticalChevronImageConverter"
 														Foreground="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
 	<converters:BooleanToHorizontalChevronImageConverter x:Key="BooleanToHorizontalChevronImageConverter"
 														Foreground="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
-	<Style x:Key="FAToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+
+	<!--Ribbon-->
+	<Style TargetType="RibbonControl">
+		<Setter Property="Background" Value="Transparent" />
+	</Style>
+	<Style TargetType="RibbonTab">
+		<Setter Property="Background" Value="Transparent" />
+	</Style>
+	<Style TargetType="RibbonGallery">
+		<Setter Property="Background" Value="Transparent" />
+	</Style>
+	
+	<!--Button-->
+	<Style TargetType="Button">
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="FontWeight" Value="Normal" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="Opacity" Value="0.8" />
+		<Setter Property="Padding" Value="16 8" />
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="Opacity" Value="1" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<!--FA Icon-->
+	<Style x:Key="FAToggleButton" TargetType="ToggleButton">
 		<Setter Property="FontFamily" Value="/FontAwesome.Sharp;component/fonts/#Font Awesome 6 Free Solid"/>
 		<Setter Property="FontSize" Value="12" />
 		<Setter Property="VerticalAlignment" Value="Center"/>
@@ -40,31 +68,8 @@
 		</Style.Triggers>
 	</Style>
 
-	<!--Ribbon-->
-	<Style TargetType="RibbonControl" BasedOn="{StaticResource {x:Type RibbonControl}}">
+	<!--Panel-->
+	<Style TargetType="{x:Type Panel}">
 		<Setter Property="Background" Value="Transparent" />
 	</Style>
-	<Style TargetType="RibbonTab" BasedOn="{StaticResource {x:Type RibbonTab}}">
-		<Setter Property="Background" Value="Transparent" />
-	</Style>
-	<Style TargetType="RibbonGallery" BasedOn="{StaticResource {x:Type RibbonGallery}}">
-		<Setter Property="Background" Value="Transparent" />
-	</Style>
-	
-	<!--Button-->
-	<Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-		<Setter Property="BorderBrush" Value="Transparent" />
-		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="FontWeight" Value="Normal" />
-		<Setter Property="HorizontalContentAlignment" Value="Center" />
-		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="Opacity" Value="0.8" />
-		<Setter Property="Padding" Value="16 8" />
-		<Style.Triggers>
-			<Trigger Property="IsMouseOver" Value="True">
-				<Setter Property="Opacity" Value="1" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>
-
 </ResourceDictionary>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls.Ribbon;
 using System.Windows.Input;
 using System.Windows.Interop;
+using DevExpress.Xpf.Core;
 using essentialMix;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
@@ -14,7 +14,7 @@ namespace PrismOutlook.Windows;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : RibbonWindow
+public partial class MainWindow : ThemedWindow
 {
 	public MainWindow([NotNull] MainViewModel viewModel, [NotNull] ILogger<MainWindow> logger)
 	{
