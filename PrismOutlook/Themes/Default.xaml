@@ -9,17 +9,6 @@
 														Foreground="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
 	<converters:BooleanToHorizontalChevronImageConverter x:Key="BooleanToHorizontalChevronImageConverter"
 														Foreground="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
-
-	<!--Ribbon-->
-	<Style TargetType="RibbonControl">
-		<Setter Property="Background" Value="Transparent" />
-	</Style>
-	<Style TargetType="RibbonTab">
-		<Setter Property="Background" Value="Transparent" />
-	</Style>
-	<Style TargetType="RibbonGallery">
-		<Setter Property="Background" Value="Transparent" />
-	</Style>
 	
 	<!--Button-->
 	<Style TargetType="Button">
@@ -72,4 +61,5 @@
 	<Style TargetType="{x:Type Panel}">
 		<Setter Property="Background" Value="Transparent" />
 	</Style>
+	
 </ResourceDictionary>

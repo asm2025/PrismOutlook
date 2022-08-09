@@ -16,47 +16,72 @@
 				Icon="pack://application:,,,/Resources/Prism.ico"
 				Title="{Binding Path=Title}" MinWidth="512" MinHeight="384"
 				TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Auto">
-	<Window.TaskbarItemInfo>
+	<dx:ThemedWindow.TaskbarItemInfo>
 		<TaskbarItemInfo ProgressState="{Binding Path=ProgressState}" ProgressValue="{Binding Path=Progress}" />
-	</Window.TaskbarItemInfo>
-	<Grid>
+	</dx:ThemedWindow.TaskbarItemInfo>
+	<dx:ThemedWindow.Resources>
+		<Style TargetType="{x:Type dxr:RibbonControl}">
+			<Setter Property="ShowApplicationButton" Value="True" />
+			<Setter Property="RibbonStyle" Value="{Binding Source={x:Reference RibbonControl}, Path=RibbonStyle}" />
+			<Setter Property="PageCategoryAlignment" Value="{Binding Source={x:Reference RibbonControl}, Path=PageCategoryAlignment}" />
+			<Setter Property="RibbonTitleBarVisibility" Value="{Binding Source={x:Reference RibbonControl}, Path=RibbonTitleBarVisibility}" />
+			<Setter Property="ToolbarShowMode" Value="{Binding Source={x:Reference RibbonControl}, Path=ToolbarShowMode}" />
+			<Setter Property="IsSimplified" Value="True" />
+		</Style>
+	</dx:ThemedWindow.Resources>
+	<Grid Background="Transparent">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<dxr:RibbonControl x:Name="Ribbon" ApplicationButtonLargeIcon="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
-			<Ribbon.HelpPaneContent>
-				<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-					<ToggleButton Style="{StaticResource VChevron}" IsChecked="{Binding Path=IsMinimized, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Ribbon}}" />
-					<RibbonButton SmallImageSource="{fa:IconSource CircleQuestion}" />
-				</StackPanel>
-			</Ribbon.HelpPaneContent>
-			<Ribbon.QuickAccessToolBar>
-				<RibbonQuickAccessToolBar />
-			</Ribbon.QuickAccessToolBar>
-			<Ribbon.ApplicationMenu>
-				<RibbonApplicationMenu IsMainMenu="True" SmallImageSource="{Binding Path=Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
-					<RibbonApplicationMenu.AuxiliaryPaneContent>
-						<RibbonGallery CanUserFilter="False" ScrollViewer.VerticalScrollBarVisibility="Auto">
-							<RibbonGalleryCategory Header="Test">
-								<RibbonGalleryCategory.ItemsPanel>
-									<ItemsPanelTemplate>
-										<StackPanel Orientation="Vertical" IsItemsHost="True"/>
-									</ItemsPanelTemplate>
-								</RibbonGalleryCategory.ItemsPanel>
-							</RibbonGalleryCategory>
-						</RibbonGallery>
-					</RibbonApplicationMenu.AuxiliaryPaneContent>
-					<RibbonApplicationMenuItem x:Name="mnuTest" ImageSource="{fa:IconSource File}" Header="Test" />
-				</RibbonApplicationMenu>
-			</Ribbon.ApplicationMenu>
-			<!--Tabs-->
-			<RibbonTab x:Name="tabHome" Header="Home">
-				<RibbonGroup x:Name="Group1" Header="Group 1">
-					<RibbonButton x:Name="rbtTest" Label="Test" SmallImageSource="{fa:IconSource File}" />
-				</RibbonGroup>
-			</RibbonTab>
+		<dxr:RibbonControl x:Name="RibbonControl" ApplicationButtonLargeIcon="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
+			<dxr:RibbonControl.ApplicationMenu>
+				<dxr:BackstageViewControl>
+					<dxr:BackstageTabItem Content="Home" Glyph="{fa:IconSource Home}">
+					</dxr:BackstageTabItem>
+					<dxr:BackstageTabItem Content="New" Glyph="{fa:IconSource File}">
+					</dxr:BackstageTabItem>
+					<dxr:BackstageSeparatorItem />
+					<dxr:BackstageTabItem Content="Info" Glyph="{fa:IconSource ExclamationCircle}">
+					</dxr:BackstageTabItem>
+					<dxr:BackstageSeparatorItem Placement="Bottom" />
+					<dxr:BackstageButtonItem Content="Close" Placement="Bottom" Glyph="{fa:IconSource Times}" />
+				</dxr:BackstageViewControl>
+			</dxr:RibbonControl.ApplicationMenu>
+			<dxr:RibbonControl.PageHeaderItems>
+				<dxb:BarButtonItem Name="bbiDescription" Glyph="{fa:IconSource Cog}" />
+				<dxb:BarItemLink BarItemName="bilStyleItem" RibbonStyle="SmallWithText" />
+			</dxr:RibbonControl.PageHeaderItems>
+			<dxr:RibbonControl.ToolbarItems>
+				<dxr:RibbonSpacingSelectorItemLink BarItemName="spacingSelector" />
+				<dxb:BarItemLink BarItemName="bilPaste" />
+				<dxb:BarItemLink BarItemName="bilCut" />
+				<dxb:BarItemLink BarItemName="bilCopy" />
+			</dxr:RibbonControl.ToolbarItems>
+			<dxr:RibbonPage Caption="Format Text">
+				<dxr:RibbonPageGroup Caption="Clipboard" ShowCaptionButton="False" SmallGlyph="{dx:DXImage SvgImages/Outlook Inspired/Paste.svg}">
+					<dxb:BarButtonItem Name="bbiPaste"
+										Content="Paste"
+										Glyph="{fa:IconSource Paste}"
+										MediumGlyph="{fa:IconSource Paste}"
+										Hint="Inserts the contents of the Clipboard at the insertion point."
+										KeyGesture="Ctrl+V"
+										RibbonStyle="Large" />
+					<dxb:BarButtonItem Name="bbiCut"
+										Content="Cut"
+										Glyph="{fa:IconSource Paste}"
+										MediumGlyph="{fa:IconSource Paste}"
+										KeyGesture="Ctrl+X"
+										RibbonStyle="SmallWithText" />
+					<dxb:BarButtonItem Name="bbiCopy"
+										Content="Copy"
+										Glyph="{fa:IconSource Copy}"
+										MediumGlyph="{fa:IconSource Copy}"
+										KeyGesture="Ctrl+C"
+										RibbonStyle="SmallWithText" />
+				</dxr:RibbonPageGroup>
+			</dxr:RibbonPage>
 		</dxr:RibbonControl>
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>

@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using DevExpress.Xpf.Core;
 using essentialMix;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
@@ -14,13 +13,26 @@ namespace PrismOutlook.Windows;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : ThemedWindow
+public partial class MainWindow
 {
+	public static readonly DependencyProperty RibbonStyleProperty;
+
+	static MainWindow()
+	{
+		RibbonStyleProperty = DependencyProperty.Register(nameof(RibbonStyle), typeof(Style), typeof(MainWindow), new FrameworkPropertyMetadata(null));
+	}
+
 	public MainWindow([NotNull] MainViewModel viewModel, [NotNull] ILogger<MainWindow> logger)
 	{
 		Logger = logger;
 		DataContext = viewModel;
 		InitializeComponent();
+	}
+
+	public Style RibbonStyle
+	{
+		get => (Style)GetValue(RibbonStyleProperty);
+		set => SetValue(RibbonStyleProperty, (object)value);
 	}
 
 	public ILogger Logger { get; }
